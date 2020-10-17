@@ -1,0 +1,54 @@
+/**
+ * Muhammad Ihsan Firzatullah Simbolon
+ * 1903332058
+ * TT3C
+ * Teknik Elektro
+ * Politeknik Negeri Jakarta
+ * 
+ * Kode ini digunakan untuk rangkaian Arduino dengan pendeteksi Gas Alkohol
+ * memiliki 3 output yaitu 2 LED dan 1 LCD
+ */
+
+ 
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(13, 12, 11, 10, 9, 8); // Membuat obyek dengan nama lcd dari library LCD(LiquidCrystal)
+int GAS_SENSOR=3;                        // Menyatakan Pin untuk Sensor Gas
+int RED_LED=4;                           // Menyatakan Pin untuk LED Merah
+int GREEN_LED=5;                         // Menyatakan Pin untuk LED Hijau
+void setup() {
+  // put your setup code here, to run once:
+pinMode(GAS_SENSOR, INPUT_PULLUP);  // Inisialisasi pin 5 sebagai input dan mengaftikan pull up resistor
+pinMode(GREEN_LED,OUTPUT);          // Inisialisasi  LED pin sebagai output
+pinMode(RED_LED,OUTPUT);            // Inisialisasi  LED pin sebagai output
+lcd.begin(20,4);                    // Menghidupkan LCD
+lcd.setCursor(0,0);                 // Menempatkan kursor pada kolom 1 dan baris 1 pada LCD
+lcd.print("SISTEM PENDETEKSI");     // Mencetak tulisan pada LCD  
+lcd.setCursor(0,1);                 // Menempatkan kursor pada kolom 1 dan baris 2 pada LCD
+lcd.print("ALKOHOL");               // Mencetak tulisan pada LCD
+lcd.setCursor(0,2);                 // Menempatkan kursor pada kolom 1 dan baris 3 pada LCD
+lcd.print("TELEKOMUNIKASI PNJ");    // Mencetak tulisan pada LCD
+delay(1500);                        // Durasi teks muncul pada LCD
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  int GAS_SENSOR_READ = digitalRead(GAS_SENSOR);    //Membuat data baru dengan nama GAS_SENSOR_READ dengan variabel dari hasil baca pin 3
+  if (GAS_SENSOR_READ == LOW)                       //jika hasil baca dari pin 3 adalah LOW (0) maka
+  {
+    lcd.clear();                                    // Menghapus semua tulisan pada LCD
+    lcd.setCursor(0, 3);                            // Menempatkan kursor pada kolom 1 dan baris 4 pada LCD
+    lcd.print("ALCOHOL NOT DETECTED");              // Mencetak tulisan pada LCD
+    digitalWrite(RED_LED,LOW);                      // Memberi nilai LOW (0) pada pin 4 yaitu RED_LED
+    digitalWrite(GREEN_LED,HIGH);                   // Memberi nilai HIGH (1) pada pin 5 yaitu GREEN_LED
+    delay(30);
+  }
+else                                                // Jika tidak, maka
+{
+    lcd.clear();                                    // Menghapus semua tulisan pada LCD
+    lcd.setCursor(0, 3);                            // Menempatkan kursor pada kolom 1 dan baris 4 pada LCD
+    lcd.print("ALCOHOL DETECTED");                  // Mencetak tulisan pada LCD
+    digitalWrite(RED_LED,HIGH);                     // Memberi nilai HIGH (1) pada pin 4 yaitu RED_LED
+    digitalWrite(GREEN_LED,LOW);                    // Memberi nilai LOW (0) pada pin 5 yaitu GREEN_LED
+      delay(30);
+}
+}
